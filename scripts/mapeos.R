@@ -7,11 +7,14 @@ library(cowplot)
 data2017 <- readOGR("../data/Coordenadas2017.kml")
 data1989 <- readOGR("../data/Coordenadas1985.kml")
 
-colnames( coords1989 ) <- c("lon", "lat", "alt")
-coords1989 <- as.data.frame( coords1989 )
 coords2017 <- data2017@coords
-colnames( coords2017 ) <- c("lon", "lat", "alt")
+coords1989 <- data1989@coords
+
+coords1989 <- as.data.frame( coords1989 )
 coords2017 <- as.data.frame( coords2017 )
+
+colnames( coords1989 ) <- c("lon", "lat", "alt")
+colnames( coords2017 ) <- c("lon", "lat", "alt")
 
 coords <- rbind(
     mutate( coords1989, year=1985 ),
@@ -19,6 +22,7 @@ coords <- rbind(
 coords <- mutate( coords, year=as.factor(year) )
 
 cdmxTerr <- get_map( 'Mexico city', zoom=11 )
+
 ggmap( cdmxTerr ) +
     xlim(-99.20, -99.10) + ylim(19.30, 19.47)
 cdmx <- get_map( 'Mexico city', zoom = 11, maptype="terrain" )
